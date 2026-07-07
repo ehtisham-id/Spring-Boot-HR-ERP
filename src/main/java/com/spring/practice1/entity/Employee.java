@@ -31,7 +31,6 @@ public class Employee {
     @Column(name = "salary")
     private double salary = 0;
 
-    @OneToMany(cascade = CascadeType.ALL , targetEntity = Leave.class)
-    @JoinColumn(name = "leaves")
-    private List<Leave> leaves;
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    private List<Leave> leaves = new ArrayList<>();
 }

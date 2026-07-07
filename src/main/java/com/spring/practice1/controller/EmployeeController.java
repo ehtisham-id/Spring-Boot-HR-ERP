@@ -1,13 +1,16 @@
 package com.spring.practice1.controller;
 
-import com.spring.practice1.entity.Employee;
-import com.spring.practice1.entity.Leave;
+import com.spring.practice1.dto.EmployeeRequestDTO;
+import com.spring.practice1.dto.EmployeeResponseDTO;
+import com.spring.practice1.dto.LeaveRequestDTO;
+import com.spring.practice1.dto.LeaveResponseDTO;
 import com.spring.practice1.service.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @RestController()
 @RequestMapping(path="/employee")
@@ -16,17 +19,17 @@ public class EmployeeController {
     EmployeeService employeeService;
 
     @GetMapping()
-    public ResponseEntity<ArrayList<Employee>> findall(){
+    public ResponseEntity<List<EmployeeResponseDTO>> findall(){
         return ResponseEntity.ok(employeeService.findAllEmployee());
     }
 
     @GetMapping("/{id}")
-    public Employee findEmployeeById(@PathVariable Long id){
-        return employeeService.findEmployeeById(id);
+    public ResponseEntity<EmployeeResponseDTO> findEmployeeById(@PathVariable Long id){
+        return ResponseEntity.ok(employeeService.findEmployeeById(id));
     }
 
     @PostMapping()
-    public ResponseEntity<String> addEmployee(@RequestBody Employee employee){
+    public ResponseEntity<String> addEmployee(@Valid @RequestBody EmployeeRequestDTO employee){
         employeeService.addEmployee(employee);
         return ResponseEntity.ok("Employee created successfully!");
     }
@@ -38,13 +41,13 @@ public class EmployeeController {
     }
 
     @PostMapping("/{id}/leave")
-    public ResponseEntity<String> markLeave(@RequestBody Leave leave, @PathVariable Long id){
+    public ResponseEntity<String> markLeave(@Valid @RequestBody LeaveRequestDTO leave, @PathVariable Long id){
         employeeService.markLeave(leave,id);
         return ResponseEntity.ok("Leave Marked successfully!");
     }
 
     @GetMapping("/leave")
-    public ArrayList<Leave> getLeaves(){
-        return employeeService.getLeaves();
+    public ResponseEntity<List<LeaveResponseDTO>> getLeaves(){
+        return ResponseEntity.ok(employeeService.getLeaves());
     }
 }

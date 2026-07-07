@@ -27,7 +27,7 @@ public class Leave {
     @Column(name="leave_date")
     private Date leave_date;
 
-//    @ManyToOne
-//    @JoinColumn(name = "employee_id", referencedColumnName = "id")
-//    private Employee employee;
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
 }

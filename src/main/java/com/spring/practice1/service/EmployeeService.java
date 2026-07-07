@@ -1,16 +1,19 @@
 package com.spring.practice1.service;
 
+import com.spring.practice1.dto.EmployeeRequestDTO;
+import com.spring.practice1.dto.EmployeeResponseDTO;
+import com.spring.practice1.dto.LeaveRequestDTO;
+import com.spring.practice1.dto.LeaveResponseDTO;
 import com.spring.practice1.entity.Employee;
 import com.spring.practice1.entity.Leave;
-import com.spring.practice1.enums.Reason;
+import com.spring.practice1.mapper.EmployeeMapper;
+import com.spring.practice1.mapper.LeaveMapper;
 import com.spring.practice1.repository.EmployeeRepository;
 import com.spring.practice1.repository.LeaveRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class EmployeeService {
@@ -20,31 +23,41 @@ public class EmployeeService {
     @Autowired
     private LeaveRepository leaveRepository;
 
-    public ArrayList<Employee> findAllEmployee(){
-        return (ArrayList<Employee>) employeeRepository.findAll();
+    @Autowired
+    private EmployeeMapper employeeMapper;
+
+    @Autowired
+    private LeaveMapper leaveMapper;
+
+    public List<EmployeeResponseDTO> findAllEmployee(){
+        return employeeMapper.listToResponse(employeeRepository.findAll());
     }
 
-    public Employee findEmployeeById(Long id){
-        Optional<Employee> opt = employeeRepository.findById(id);
-        return opt.orElse(null);
+    public EmployeeResponseDTO findEmployeeById(Long id){
+        Employee emp = employeeRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Employee Not Found")
+        );
+        return employeeMapper.toResponse(emp);
     }
 
-    public void addEmployee(Employee employee){
-        employeeRepository.save(employee);
+    public void addEmployee(EmployeeRequestDTO employee){
+        Employee emp = employeeMapper.toEntity(employee);
+        employeeRepository.save(emp);
     }
 
     public  void deleteEmployee(Long id){
         employeeRepository.deleteById(id);
     }
 
-    public void markLeave(Leave leave, Long id){
+    public void markLeave(LeaveRequestDTO leave, Long id){
+        Leave l = leaveMapper.toEntity(leave);
         employeeRepository.findById(id).ifPresent(employee -> {
-            employee.getLeaves().add(leave);
+            employee.getLeaves().add(l);
             employeeRepository.save(employee);
         });
     }
 
-    public ArrayList<Leave> getLeaves(){
-        return (ArrayList<Leave>) leaveRepository.findAll();
+    public List<LeaveResponseDTO> getLeaves(){
+        return leaveMapper.listToResponse(leaveRepository.findAll());
     }
 }
