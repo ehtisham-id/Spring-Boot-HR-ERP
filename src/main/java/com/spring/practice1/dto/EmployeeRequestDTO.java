@@ -1,5 +1,6 @@
 package com.spring.practice1.dto;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;

@@ -21,13 +21,7 @@ public class EmployeeService {
     private  EmployeeRepository employeeRepository;
 
     @Autowired
-    private LeaveRepository leaveRepository;
-
-    @Autowired
     private EmployeeMapper employeeMapper;
-
-    @Autowired
-    private LeaveMapper leaveMapper;
 
     public List<EmployeeResponseDTO> findAllEmployee(){
         return employeeMapper.listToResponse(employeeRepository.findAll());
@@ -49,15 +43,12 @@ public class EmployeeService {
         employeeRepository.deleteById(id);
     }
 
-    public void markLeave(LeaveRequestDTO leave, Long id){
-        Leave l = leaveMapper.toEntity(leave);
-        employeeRepository.findById(id).ifPresent(employee -> {
-            employee.getLeaves().add(l);
-            employeeRepository.save(employee);
-        });
-    }
+    public void updateEmployee(Long id , EmployeeRequestDTO empDto){
+        Employee emp = employeeRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Employee Not Found")
+        );
 
-    public List<LeaveResponseDTO> getLeaves(){
-        return leaveMapper.listToResponse(leaveRepository.findAll());
+        employeeMapper.updateEntityFromDto(empDto, emp);
+        employeeRepository.save(emp);
     }
 }

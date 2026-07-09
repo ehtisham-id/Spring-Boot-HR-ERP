@@ -17,7 +17,7 @@ import java.util.List;
 public class Employee {
     @Id
     @GeneratedValue
-    private Integer id;
+    private Long id;
 
     @Column(name = "name")
     private String name;
@@ -30,7 +30,4 @@ public class Employee {
 
     @Column(name = "salary")
     private double salary = 0;
-
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
-    private List<Leave> leaves = new ArrayList<>();
 }

@@ -40,14 +40,9 @@ public class EmployeeController {
         return ResponseEntity.ok("Employee Deleted!");
     }
 
-    @PostMapping("/{id}/leave")
-    public ResponseEntity<String> markLeave(@Valid @RequestBody LeaveRequestDTO leave, @PathVariable Long id){
-        employeeService.markLeave(leave,id);
-        return ResponseEntity.ok("Leave Marked successfully!");
-    }
-
-    @GetMapping("/leave")
-    public ResponseEntity<List<LeaveResponseDTO>> getLeaves(){
-        return ResponseEntity.ok(employeeService.getLeaves());
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateEmplyeeById(@PathVariable Long id,@Valid @RequestBody EmployeeRequestDTO emp) {
+        employeeService.updateEmployee(id, emp);
+        return ResponseEntity.ok("Employee updated successfully");
     }
 }

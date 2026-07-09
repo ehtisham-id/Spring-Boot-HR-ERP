@@ -4,6 +4,7 @@ import com.spring.practice1.dto.LeaveRequestDTO;
 import com.spring.practice1.dto.LeaveResponseDTO;
 import com.spring.practice1.entity.Leave;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
@@ -13,4 +14,6 @@ public interface LeaveMapper {
     Leave toEntity(LeaveRequestDTO leave);
 
     List<LeaveResponseDTO> listToResponse(List<Leave> leave);
+
+    void updateEntityFromDto(LeaveRequestDTO dto ,@MappingTarget Leave leave);
 }

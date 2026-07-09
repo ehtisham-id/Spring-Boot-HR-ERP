@@ -18,16 +18,8 @@ import java.util.Date;
 public class Leave {
     @Id
     @GeneratedValue
-    private Integer id;
+    private Long id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "reason")
-    private Reason reason;
-
-    @Column(name="leave_date")
-    private Date leave_date;
-
-    @ManyToOne
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
+    @Column(name = "leave_type")
+    private String type;
 }
