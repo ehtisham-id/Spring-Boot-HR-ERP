@@ -62,7 +62,7 @@ public class AssignLeaveService {
 
     public void updateLeave(Long id , AssignLeaveRequestDTO assign_leave){
         AssignLeave temp = assignLeaveRepository.findById(id).orElseThrow(
-                ()-> new RuntimeException("Leave Not Assigned Yet")
+                ()-> new RuntimeException("Assigned Leave not Found")
         );
 
         Leave leave = leaveRepository.findById(assign_leave.getLeave_id()).orElseThrow(
@@ -76,6 +76,9 @@ public class AssignLeaveService {
         if(assign_leave.getBegin_date().after(assign_leave.getEnd_date())){
             throw new RuntimeException("Start Date must be Before End Date");
         }
+
+        temp.setEmployee(employee);
+        temp.setLeave(leave);
 
         assignLeaveMapper.updateEntityFromDto(assign_leave , temp);
         assignLeaveRepository.save(temp);

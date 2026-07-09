@@ -25,7 +25,7 @@ public class AssignLeave {
             fetch = FetchType.LAZY
     )
     @JoinColumn(
-            name = "employee_id"
+            name = "employee"
     )
     private Employee employee;
 
@@ -35,7 +35,7 @@ public class AssignLeave {
             fetch = FetchType.LAZY
     )
     @JoinColumn(
-            name = "leave_id"
+            name = "leave"
     )
     private  Leave leave;
 

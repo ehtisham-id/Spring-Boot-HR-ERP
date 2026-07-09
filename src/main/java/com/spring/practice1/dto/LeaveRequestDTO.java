@@ -12,6 +12,6 @@ import java.util.Date;
 @Setter
 public class LeaveRequestDTO {
 
-    @Size(min=3, max=30 , message="Invalid reason Value")
+    @Size(min=3, max=30 , message="Leave type must be between 3 and 30 characters")
     private String type;
 }
