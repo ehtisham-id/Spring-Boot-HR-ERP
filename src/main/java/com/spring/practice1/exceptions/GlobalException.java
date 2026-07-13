@@ -38,4 +38,9 @@ public class GlobalException {
 
         return errors;
     }
+
+    @ExceptionHandler(RuntimeException.class)
+    public String handleRuntimeError(RuntimeException ex){
+        return ex.getMessage();
+    }
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/assignes")
+@RequestMapping(path = "/assignes")
 @Tag(name = "Assign Leaves Rest API ", description = "API Endpoint to Assign Leaves to Employees")
 public class AssignLeaveController {
     @Autowired

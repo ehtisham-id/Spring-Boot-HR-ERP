@@ -19,4 +19,6 @@ public class EmployeeResponseDTO {
     private Date joining_date ;
 
     private double salary = 0;
+
+    private Long user_id;
 }

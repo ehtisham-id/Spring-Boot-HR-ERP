@@ -10,9 +10,9 @@ import java.util.Date;
 public class AssignLeaveResponseDTO {
     private Integer Id;
 
-    private EmployeeResponseDTO employee;
+    private Long employee_id;
 
-    private  LeaveResponseDTO leave;
+    private  String leave_type;
 
     private Date begin_date;
 

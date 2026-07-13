@@ -6,7 +6,6 @@ import com.spring.practice1.entity.AssignLeave;
 import com.spring.practice1.entity.Employee;
 import com.spring.practice1.entity.Leave;
 import com.spring.practice1.mapper.AssignLeaveMapper;
-import com.spring.practice1.mapper.LeaveMapper;
 import com.spring.practice1.repository.AssignLeaveRepository;
 import com.spring.practice1.repository.EmployeeRepository;
 import com.spring.practice1.repository.LeaveRepository;

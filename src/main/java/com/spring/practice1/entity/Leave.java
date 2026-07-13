@@ -20,6 +20,6 @@ public class Leave {
     @GeneratedValue
     private Long id;
 
-    @Column(name = "leave_type")
+    @Column(name = "leave_type", unique = true)
     private String type;
 }

@@ -3,9 +3,7 @@ package com.spring.practice1.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Entity()
 @Table(name = "employee")
@@ -30,4 +28,8 @@ public class Employee {
 
     @Column(name = "salary")
     private double salary = 0;
+
+    @OneToOne(targetEntity = User.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 }

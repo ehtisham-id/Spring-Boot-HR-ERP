@@ -23,4 +23,7 @@ public class EmployeeRequestDTO {
 
     @Positive(message = "Salary should be positive")
     private double salary = 0;
+
+    @Nullable
+    private  Long user_id;
 }

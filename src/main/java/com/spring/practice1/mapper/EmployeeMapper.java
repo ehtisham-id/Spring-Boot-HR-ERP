@@ -4,6 +4,7 @@ import com.spring.practice1.dto.EmployeeRequestDTO;
 import com.spring.practice1.dto.EmployeeResponseDTO;
 import com.spring.practice1.entity.Employee;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 @Mapper(componentModel = "spring", uses = LeaveMapper.class)
 public interface EmployeeMapper {
 
+    @Mapping(target = "user_id", source = "user.id")
     EmployeeResponseDTO toResponse(Employee employee);
     Employee toEntity(EmployeeRequestDTO employee);
 

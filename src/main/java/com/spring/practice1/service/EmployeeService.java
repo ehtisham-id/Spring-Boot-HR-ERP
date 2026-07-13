@@ -6,10 +6,12 @@ import com.spring.practice1.dto.LeaveRequestDTO;
 import com.spring.practice1.dto.LeaveResponseDTO;
 import com.spring.practice1.entity.Employee;
 import com.spring.practice1.entity.Leave;
+import com.spring.practice1.entity.User;
 import com.spring.practice1.mapper.EmployeeMapper;
 import com.spring.practice1.mapper.LeaveMapper;
 import com.spring.practice1.repository.EmployeeRepository;
 import com.spring.practice1.repository.LeaveRepository;
+import com.spring.practice1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,9 @@ public class EmployeeService {
 
     @Autowired
     private EmployeeMapper employeeMapper;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public List<EmployeeResponseDTO> findAllEmployee(){
         return employeeMapper.listToResponse(employeeRepository.findAll());
@@ -36,6 +41,10 @@ public class EmployeeService {
 
     public void addEmployee(EmployeeRequestDTO employee){
         Employee emp = employeeMapper.toEntity(employee);
+        User user = userRepository.findById(employee.getUser_id()).orElseThrow(
+                ()->new RuntimeException("User not Found to assign")
+        );
+        emp.setUser(user);
         employeeRepository.save(emp);
     }
 

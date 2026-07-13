@@ -22,24 +22,27 @@ public class LeaveController {
     @GetMapping
     @Operation(summary = "Get All Leaves Types")
     public ResponseEntity<List<LeaveResponseDTO>> getLeaves(){
-        return leaveService.getAllLeaves();
+        return ResponseEntity.ok(leaveService.getAllLeaves());
     }
 
     @PostMapping
     @Operation(summary = "Create new Leave type")
     public ResponseEntity<String> addLeaveType(@Valid @RequestBody LeaveRequestDTO leave){
-        return leaveService.addLeaveType(leave);
+        leaveService.addLeaveType(leave);
+        return ResponseEntity.ok("Added leave type successfully");
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete Leave Type By id")
     public ResponseEntity<String> deleteLeaveType(@PathVariable Long id){
-        return leaveService.deleteLeaveType(id);
+        leaveService.deleteLeaveType(id);
+        return ResponseEntity.ok("Deleted Leave Type Successfully");
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update Leave Type By id" , method = "Put")
     public  ResponseEntity<String> updateLeaveType(@PathVariable Long id, @RequestBody LeaveRequestDTO leave){
-        return  leaveService.updateLeaveType(id, leave);
+        leaveService.updateLeaveType(id, leave);
+        return ResponseEntity.ok("Updated leave type succesfuly");
     }
 }
