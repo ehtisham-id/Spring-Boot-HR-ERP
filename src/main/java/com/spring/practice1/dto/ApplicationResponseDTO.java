@@ -17,7 +17,7 @@ public class ApplicationResponseDTO {
 
     private String leave_type;
 
-    private Date start_date;
+    private Date begin_date;
 
     private Date end_date;
 

@@ -19,7 +19,7 @@ public class ApplicationRequestDTO {
     private Long leave_id;
 
     @Future
-    private Date start_date;
+    private Date begin_date;
 
     @Future
     private Date end_date;
