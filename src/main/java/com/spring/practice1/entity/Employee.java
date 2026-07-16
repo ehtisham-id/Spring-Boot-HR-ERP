@@ -32,4 +32,8 @@ public class Employee {
     @OneToOne(targetEntity = User.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne(targetEntity = Employee.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name="approver")
+    private Employee approver;
 }

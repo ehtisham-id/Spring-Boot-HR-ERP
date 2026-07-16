@@ -45,6 +45,12 @@ public class EmployeeService {
                 ()->new RuntimeException("User not Found to assign")
         );
         emp.setUser(user);
+        if(employee.getApprover_id()!= null){
+            Employee approver = employeeRepository.findById(employee.getApprover_id()).orElseThrow(
+                    ()->new RuntimeException("Approver provided not Found to assign")
+            );
+            emp.setApprover(approver);
+        }
         employeeRepository.save(emp);
     }
 

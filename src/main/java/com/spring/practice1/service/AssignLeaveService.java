@@ -32,6 +32,14 @@ public class AssignLeaveService {
         return assignLeaveMapper.listToDto(assignLeaveRepository.findAll());
     }
 
+    public AssignLeaveResponseDTO getAssignedLeaveById(Long id){
+        return assignLeaveMapper.toResponseDTO(
+                assignLeaveRepository.findById(id).orElseThrow(
+                        ()->new RuntimeException("Assigned Leave not found")
+                )
+        );
+    }
+
     public void assignLeave(AssignLeaveRequestDTO assign_leave){
         Leave leave = leaveRepository.findById(assign_leave.getLeave_id()).orElseThrow(
                 () -> new RuntimeException("Leave Type Not Found")
@@ -45,6 +53,8 @@ public class AssignLeaveService {
         if(assign_leave.getBegin_date().after(assign_leave.getEnd_date())){
             throw new RuntimeException("Start Date must be Before End Date");
         }
+
+        //If Assign leave is of same type for sameuser invalidate
 
         AssignLeave temp = assignLeaveMapper.toEntity(assign_leave);
         temp.setEmployee(employee);

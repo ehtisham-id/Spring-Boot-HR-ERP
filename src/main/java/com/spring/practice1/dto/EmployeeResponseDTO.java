@@ -21,4 +21,8 @@ public class EmployeeResponseDTO {
     private double salary = 0;
 
     private Long user_id;
+
+    private Long approver_id;
+
+    private String approver_name;
 }

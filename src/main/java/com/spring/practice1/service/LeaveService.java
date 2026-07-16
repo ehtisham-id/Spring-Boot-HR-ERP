@@ -24,6 +24,12 @@ public class LeaveService {
         return           leaveMapper.listToResponse(leaveRepository.findAll());
     }
 
+    public LeaveResponseDTO getLeaveById(Long id){
+        return  leaveMapper.toResponse(leaveRepository.findById(id).orElseThrow(
+                ()->new RuntimeException("Leave Type Not Found")
+        ));
+    }
+
     public void addLeaveType(LeaveRequestDTO leave){
         if(leaveRepository.existsByType(leave.getType())){
             throw new RuntimeException("Already Exist");

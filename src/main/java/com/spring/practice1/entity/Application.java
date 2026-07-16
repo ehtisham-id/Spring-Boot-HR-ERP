@@ -37,4 +37,6 @@ public class Application {
     @Column(name="status")
     private ApplicationStatus status = ApplicationStatus.PENDING;
 
+    @Column(name="reason")
+    private String reason;
 }

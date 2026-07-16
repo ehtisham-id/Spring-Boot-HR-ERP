@@ -22,4 +22,13 @@ public interface ApplicationRepository extends JpaRepository<Application , Long>
                                      @Param("status") ApplicationStatus status,
                                      @Param("startDate") Date startDate,
                                      @Param("endDate") Date endDate);
+
+
+    @Query("SELECT COUNT(a) > 0 FROM Application a " +
+            "WHERE a.employee.id = :employeeId " +
+            "AND a.begin_date <= :endDate " +
+            "AND a.end_date >= :startDate")
+    boolean hasOverlappingLeave(@Param("employeeId") Long employeeId,
+                                @Param("startDate") Date startDate,
+                                @Param("endDate") Date endDate);
 }

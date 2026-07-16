@@ -1,5 +1,6 @@
 package com.spring.practice1.controller;
 
+import com.spring.practice1.dto.ApplicationResponseDTO;
 import com.spring.practice1.dto.AssignLeaveRequestDTO;
 import com.spring.practice1.dto.AssignLeaveResponseDTO;
 import com.spring.practice1.service.AssignLeaveService;
@@ -22,6 +23,11 @@ public class AssignLeaveController {
     @Operation(summary = "Get all Assigned Leaves")
     public ResponseEntity<List<AssignLeaveResponseDTO>> getAssignedLeaves(){
         return ResponseEntity.ok(assignLeaveService.getAssignedLeaves());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AssignLeaveResponseDTO> getAssignedLeaveById(@PathVariable Long id){
+        return ResponseEntity.ok(assignLeaveService.getAssignedLeaveById(id));
     }
 
     @PostMapping

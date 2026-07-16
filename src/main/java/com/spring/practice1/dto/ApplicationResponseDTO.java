@@ -22,4 +22,6 @@ public class ApplicationResponseDTO {
     private Date end_date;
 
     private ApplicationStatus status;
+
+    private String reason;
 }

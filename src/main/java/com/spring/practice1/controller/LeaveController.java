@@ -1,5 +1,6 @@
 package com.spring.practice1.controller;
 
+import com.spring.practice1.dto.ApplicationResponseDTO;
 import com.spring.practice1.dto.LeaveRequestDTO;
 import com.spring.practice1.dto.LeaveResponseDTO;
 import com.spring.practice1.service.LeaveService;
@@ -23,6 +24,11 @@ public class LeaveController {
     @Operation(summary = "Get All Leaves Types")
     public ResponseEntity<List<LeaveResponseDTO>> getLeaves(){
         return ResponseEntity.ok(leaveService.getAllLeaves());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<LeaveResponseDTO> getLeaveById(@PathVariable Long id){
+        return ResponseEntity.ok(leaveService.getLeaveById(id));
     }
 
     @PostMapping

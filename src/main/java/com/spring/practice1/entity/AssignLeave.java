@@ -47,4 +47,10 @@ public class AssignLeave {
 
     @Column(name = "max_leaves")
     private Integer max_leaves = 5;
+
+    @Column(name = "consumed_leaves")
+    private Integer consumed_leaves;
+
+    @Column(name = "remaining_leaves")
+    private Integer remaining_leaves;
 }

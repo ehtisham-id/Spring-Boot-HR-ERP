@@ -2,6 +2,7 @@ package com.spring.practice1.controller;
 
 import com.spring.practice1.dto.ApplicationRequestDTO;
 import com.spring.practice1.dto.ApplicationResponseDTO;
+import com.spring.practice1.dto.ChangeApplicationStatusDTO;
 import com.spring.practice1.service.ApplicationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class ApplicationController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApplicationResponseDTO> getUserById(@PathVariable Long id){
+    public ResponseEntity<ApplicationResponseDTO> getApplicationById(@PathVariable Long id){
         return ResponseEntity.ok(applicationService.geApplicationById(id));
     }
 
@@ -30,6 +31,12 @@ public class ApplicationController {
     public ResponseEntity<String> addUser(@Valid @RequestBody ApplicationRequestDTO application){
         applicationService.addApplication(application);
         return ResponseEntity.ok("Added Application Request successfully");
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<String> addUser(@PathVariable Long id ,@Valid @RequestBody ChangeApplicationStatusDTO application){
+        applicationService.changeApplicationStatus(id, application);
+        return ResponseEntity.ok("Application Status Changed successfully");
     }
 
     @DeleteMapping("/{id}")

@@ -23,6 +23,4 @@ public class ApplicationRequestDTO {
 
     @Future
     private Date end_date;
-
-    private String status;
 }

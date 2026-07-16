@@ -13,6 +13,8 @@ import java.util.List;
 public interface EmployeeMapper {
 
     @Mapping(target = "user_id", source = "user.id")
+    @Mapping(target = "approver_id", source = "approver.id")
+    @Mapping(target = "approver_name", source = "approver.name")
     EmployeeResponseDTO toResponse(Employee employee);
     Employee toEntity(EmployeeRequestDTO employee);
 

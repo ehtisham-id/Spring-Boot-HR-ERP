@@ -26,4 +26,6 @@ public class EmployeeRequestDTO {
 
     @Nullable
     private  Long user_id;
+
+    private Long approver_id;
 }

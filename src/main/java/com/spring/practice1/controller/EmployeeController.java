@@ -28,7 +28,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Delete Employee By id")
+    @Operation(summary = "Get Employee By id")
     public ResponseEntity<EmployeeResponseDTO> findEmployeeById(@PathVariable Long id){
         return ResponseEntity.ok(employeeService.findEmployeeById(id));
     }

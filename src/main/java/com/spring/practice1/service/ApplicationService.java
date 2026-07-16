@@ -2,6 +2,7 @@ package com.spring.practice1.service;
 
 import com.spring.practice1.dto.ApplicationRequestDTO;
 import com.spring.practice1.dto.ApplicationResponseDTO;
+import com.spring.practice1.dto.ChangeApplicationStatusDTO;
 import com.spring.practice1.entity.Application;
 import com.spring.practice1.entity.AssignLeave;
 import com.spring.practice1.entity.Employee;
@@ -79,6 +80,10 @@ public class ApplicationService {
             throw new RuntimeException("Leave dates must be within the assigned period");
         }
 
+        if(applicationRepository.hasOverlappingLeave(emp.getId(), dto.getBegin_date(), dto.getEnd_date())){
+            throw  new RuntimeException("Your application for leave already exist in this duration");
+        }
+
         Long usedDays = applicationRepository.countApprovedLeavesInPeriod(
                 emp.getId(),
                 leave.getId(),
@@ -93,14 +98,14 @@ public class ApplicationService {
 
         if (remaining<0) {
             throw new RuntimeException("Insufficient balance: requested " + (requestedDays+usedDays) +
-                    ", available " + remaining);
+                    ", available " + entitlement.getMax_leaves());
         }
 
         entitlement.setMax_leaves((int) remaining);
         Application application = applicationMapper.toEntity(dto);
         application.setEmployee(emp);
         application.setLeave(leave);
-        application.setStatus(ApplicationStatus.ACCEPT);
+        application.setStatus(ApplicationStatus.PENDING);
         applicationRepository.save(application);
         assignLeaveRepository.save(entitlement);
     }
@@ -109,20 +114,47 @@ public class ApplicationService {
         applicationRepository.deleteById(id);
     }
 
-    public void changeApplicationStatus(Long id, ApplicationStatus status){
-        Application application = applicationRepository.findById(id).orElseThrow(
-        ()->new RuntimeException("No Application Found")
-        );
-        if(status == ApplicationStatus.ACCEPT){
-            application.setStatus(status);
-        }else if(status == ApplicationStatus.REJECT){
+    public void changeApplicationStatus(Long id, ChangeApplicationStatusDTO dto) {
+        Application application = applicationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Application not found"));
+
+        if (!application.getEmployee().getApprover().getId().equals(dto.getApprover_id())) {
+            throw new RuntimeException("You cannot approve or reject this leave application");
+        }
+
+        if (application.getStatus() != ApplicationStatus.PENDING) {
+            throw new RuntimeException("Application has already been processed");
+        }
+
+        ApplicationStatus targetStatus = applicationMapper.mapStatus(dto.getStatus());
+
+        if (targetStatus == ApplicationStatus.REJECT) {
             LocalDate start = application.getBegin_date().toInstant()
                     .atZone(ZoneId.systemDefault()).toLocalDate();
             LocalDate end = application.getEnd_date().toInstant()
                     .atZone(ZoneId.systemDefault()).toLocalDate();
+
             long requestedDays = ChronoUnit.DAYS.between(start, end) + 1;
 
+            AssignLeave entitlement = assignLeaveRepository
+                    .findActiveEntitlement(
+                            application.getEmployee().getId(),
+                            application.getLeave().getId(),
+                            Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant())
+                    )
+                    .orElseThrow(() -> new RuntimeException("Active leave entitlement record not found"));
+
+
+            int updatedMaxLeaves = entitlement.getMax_leaves() + (int) requestedDays;
+            entitlement.setMax_leaves(updatedMaxLeaves);
+
+            assignLeaveRepository.save(entitlement);
         }
 
+        application.setStatus(targetStatus);
+        application.setReason(dto.getReason());
+        applicationRepository.save(application);
     }
+
+
 }
