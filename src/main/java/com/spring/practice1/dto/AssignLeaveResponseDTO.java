@@ -10,7 +10,7 @@ import java.util.Date;
 public class AssignLeaveResponseDTO {
     private Integer Id;
 
-    private Long employee_id;
+    private EmployeeResponseDTO employee;
 
     private  String leave_type;
 
@@ -19,4 +19,8 @@ public class AssignLeaveResponseDTO {
     private Date end_date;
 
     private Integer max_leaves;
+
+    private Integer consumed_leaves;
+
+    private  Integer remaining_leaves;
 }

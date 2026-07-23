@@ -45,9 +45,9 @@ public class ApplicationController {
         return ResponseEntity.ok("Deleted  Application Request successfully");
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<String> addUser(@PathVariable Long id,@Valid @RequestBody ApplicationRequestDTO application){
-//        applicationService.upda(id, user);
-//        return ResponseEntity.ok("Updated  User successfully");
-//    }
+    @PutMapping("/{id}")
+    public ResponseEntity<String> addUser(@PathVariable Long id,@Valid @RequestBody ApplicationRequestDTO application){
+        applicationService.updateApplication(id, application);
+        return ResponseEntity.ok("Updated  User successfully");
+    }
 }

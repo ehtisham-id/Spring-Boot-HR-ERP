@@ -35,4 +35,6 @@ public class User {
     @Column(name = "status")
     private UserStatus status =  UserStatus.ACTIVE;
 
+    @Column(name = "email_verified")
+    private boolean emailVerified = false;
 }

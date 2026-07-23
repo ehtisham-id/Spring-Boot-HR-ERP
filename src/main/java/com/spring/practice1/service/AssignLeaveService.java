@@ -54,7 +54,7 @@ public class AssignLeaveService {
             throw new RuntimeException("Start Date must be Before End Date");
         }
 
-        //If Assign leave is of same type for sameuser invalidate
+        //If Assign leave is of same type for same user invalidate
 
         AssignLeave temp = assignLeaveMapper.toEntity(assign_leave);
         temp.setEmployee(employee);
@@ -78,6 +78,10 @@ public class AssignLeaveService {
                 () -> new RuntimeException("Leave Type Not Found")
         );
 
+        if(assign_leave.getEmployee_id() != temp.getEmployee().getId()){
+            throw new RuntimeException("Employee cannot be changed");
+        }
+
         Employee employee = employeeRepository.findById(assign_leave.getEmployee_id()).orElseThrow(
                 ()->new RuntimeException("Employee Not Found")
         );
@@ -86,8 +90,9 @@ public class AssignLeaveService {
             throw new RuntimeException("Start Date must be Before End Date");
         }
 
-        temp.setEmployee(employee);
         temp.setLeave(leave);
+        temp.setMax_leaves(assign_leave.getMax_leaves());
+        temp.setRemaining_leaves(temp.getRemaining_leaves() + (assign_leave.getMax_leaves() - temp.getMax_leaves()));
 
         assignLeaveMapper.updateEntityFromDto(assign_leave , temp);
         assignLeaveRepository.save(temp);

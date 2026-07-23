@@ -20,9 +20,7 @@ public class EmployeeResponseDTO {
 
     private double salary = 0;
 
-    private Long user_id;
+    private UserResponseDTO user;
 
-    private Long approver_id;
-
-    private String approver_name;
+    private EmployeeResponseDTO approver;
 }

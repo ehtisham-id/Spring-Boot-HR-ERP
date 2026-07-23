@@ -13,7 +13,6 @@ import java.util.List;
 public interface AssignLeaveMapper {
     AssignLeave toEntity(AssignLeaveRequestDTO assign);
 
-    @Mapping(target = "employee_id", source = "employee.id")
     @Mapping(target = "leave_type", source = "leave.type")
     AssignLeaveResponseDTO toResponseDTO(AssignLeave assignLeave);
 

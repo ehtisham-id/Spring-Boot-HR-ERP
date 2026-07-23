@@ -101,7 +101,8 @@ public class ApplicationService {
                     ", available " + entitlement.getMax_leaves());
         }
 
-        entitlement.setMax_leaves((int) remaining);
+        entitlement.setRemaining_leaves((int) remaining);
+        entitlement.setConsumed_leaves((int) requestedDays);
         Application application = applicationMapper.toEntity(dto);
         application.setEmployee(emp);
         application.setLeave(leave);
@@ -146,7 +147,8 @@ public class ApplicationService {
 
 
             int updatedMaxLeaves = entitlement.getMax_leaves() + (int) requestedDays;
-            entitlement.setMax_leaves(updatedMaxLeaves);
+            entitlement.setConsumed_leaves(entitlement.getConsumed_leaves() - (int) requestedDays);
+            entitlement.setRemaining_leaves(entitlement.getRemaining_leaves() + (int) requestedDays);
 
             assignLeaveRepository.save(entitlement);
         }
@@ -154,6 +156,73 @@ public class ApplicationService {
         application.setStatus(targetStatus);
         application.setReason(dto.getReason());
         applicationRepository.save(application);
+    }
+
+    public void updateApplication(Long id, @NonNull ApplicationRequestDTO dto) {
+        Application app = applicationRepository.findById(id).orElseThrow(
+                ()-> new RuntimeException("application not found")
+        );
+
+        if(dto.getEmployee_id() != app.getEmployee().getId())
+            throw new RuntimeException("Employee cannot be modified");
+
+        Employee emp = employeeRepository.findById(dto.getEmployee_id()).orElseThrow(
+                ()-> new RuntimeException("Not Found Employee")
+        );
+        Leave leave = leaveRepository.findById(dto.getLeave_id())
+                .orElseThrow(() -> new RuntimeException("Leave type not found"));
+
+        LocalDate today = LocalDate.now();
+        LocalDate start = dto.getBegin_date().toInstant()
+                .atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate end = dto.getEnd_date().toInstant()
+                .atZone(ZoneId.systemDefault()).toLocalDate();
+
+        if (!start.isAfter(today)) {
+            throw new RuntimeException("Leave must start after today");
+        }
+        if (start.isAfter(end)) {
+            throw new RuntimeException("Start date must be before or equal to end date");
+        }
+
+        AssignLeave entitlement = assignLeaveRepository
+                .findActiveEntitlement(emp.getId(), leave.getId(), Date.from(today.atStartOfDay(ZoneId.systemDefault()).toInstant()))
+                .orElseThrow(() -> new RuntimeException("Employee not assigned this leave type or period"));
+
+        if (start.isBefore(entitlement.getBegin_date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()) ||
+                end.isAfter(entitlement.getEnd_date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())) {
+            throw new RuntimeException("Leave dates must be within the assigned period");
+        }
+
+        if(applicationRepository.hasOverlappingLeave(emp.getId(), dto.getBegin_date(), dto.getEnd_date())){
+            throw  new RuntimeException("Your application for leave already exist in this duration");
+        }
+
+        Long usedDays = applicationRepository.countApprovedLeavesInPeriod(
+                emp.getId(),
+                leave.getId(),
+                ApplicationStatus.PENDING,
+                entitlement.getBegin_date(),
+                entitlement.getEnd_date()
+        );
+        long used = (usedDays == null) ? 0L : usedDays;
+
+        long requestedDays = ChronoUnit.DAYS.between(start, end) + 1;
+        long remaining = entitlement.getMax_leaves() - requestedDays - usedDays;
+
+        if (remaining<0) {
+            throw new RuntimeException("Insufficient balance: requested " + (requestedDays+usedDays) +
+                    ", available " + entitlement.getMax_leaves());
+        }
+
+        entitlement.setRemaining_leaves((int) remaining);
+        entitlement.setConsumed_leaves((int) requestedDays);
+        Application application = applicationMapper.toEntity(dto);
+        application.setEmployee(emp);
+        application.setLeave(leave);
+        application.setStatus(ApplicationStatus.PENDING);
+        applicationRepository.save(application);
+        assignLeaveRepository.save(entitlement);
     }
 
 

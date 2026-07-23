@@ -11,9 +11,7 @@ import java.util.Date;
 public class ApplicationResponseDTO {
     private Long id;
 
-    private Long employee_id;
-
-    private String employee_name;
+    private EmployeeResponseDTO employee;
 
     private String leave_type;
 

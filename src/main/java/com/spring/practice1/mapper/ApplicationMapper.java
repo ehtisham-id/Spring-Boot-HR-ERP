@@ -6,6 +6,7 @@ import com.spring.practice1.entity.Application;
 import com.spring.practice1.enums.ApplicationStatus;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
@@ -14,8 +15,6 @@ import java.util.List;
 public interface ApplicationMapper {
     Application toEntity(ApplicationRequestDTO application);
 
-    @Mapping(target = "employee_id" ,source = "employee.id")
-    @Mapping(target = "employee_name", source = "employee.name")
     @Mapping(target = "leave_type", source = "leave.type")
     ApplicationResponseDTO toResponse(Application application);
 
@@ -30,4 +29,6 @@ public interface ApplicationMapper {
     }
 
     List<ApplicationResponseDTO> getAll(List<Application> applications);
+
+    void updateEntityFromDto(ApplicationRequestDTO applicationRequest, @MappingTarget Application app);
 }

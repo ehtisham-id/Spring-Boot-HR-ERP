@@ -63,7 +63,18 @@ public class EmployeeService {
                 () -> new RuntimeException("Employee Not Found")
         );
 
+        if(empDto.getUser_id() != emp.getUser().getId()){
+            throw new RuntimeException("The User ID cannot be changed");
+        }
+
+        Employee approver = employeeRepository.findById(empDto.getApprover_id()).orElseThrow(
+                ()->new RuntimeException("Approver Not Found")
+        );
+
+        emp.setApprover(approver);
+
         employeeMapper.updateEntityFromDto(empDto, emp);
         employeeRepository.save(emp);
     }
+
 }

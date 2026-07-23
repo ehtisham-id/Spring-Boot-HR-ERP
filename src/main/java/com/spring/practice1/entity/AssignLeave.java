@@ -49,8 +49,8 @@ public class AssignLeave {
     private Integer max_leaves = 5;
 
     @Column(name = "consumed_leaves")
-    private Integer consumed_leaves;
+    private Integer consumed_leaves = 0;
 
     @Column(name = "remaining_leaves")
-    private Integer remaining_leaves;
+    private Integer remaining_leaves = 0;
 }
