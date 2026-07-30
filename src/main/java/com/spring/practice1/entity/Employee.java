@@ -1,5 +1,6 @@
 package com.spring.practice1.entity;
 
+import com.spring.practice1.modules.auth.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,11 +30,11 @@ public class Employee {
     @Column(name = "salary")
     private double salary = 0;
 
-    @OneToOne(targetEntity = User.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(targetEntity = Employee.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Employee.class, fetch = FetchType.LAZY)
     @JoinColumn(name="approver")
     private Employee approver;
 }

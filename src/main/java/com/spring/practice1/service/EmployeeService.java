@@ -2,16 +2,11 @@ package com.spring.practice1.service;
 
 import com.spring.practice1.dto.EmployeeRequestDTO;
 import com.spring.practice1.dto.EmployeeResponseDTO;
-import com.spring.practice1.dto.LeaveRequestDTO;
-import com.spring.practice1.dto.LeaveResponseDTO;
 import com.spring.practice1.entity.Employee;
-import com.spring.practice1.entity.Leave;
-import com.spring.practice1.entity.User;
+import com.spring.practice1.modules.auth.entity.User;
 import com.spring.practice1.mapper.EmployeeMapper;
-import com.spring.practice1.mapper.LeaveMapper;
 import com.spring.practice1.repository.EmployeeRepository;
-import com.spring.practice1.repository.LeaveRepository;
-import com.spring.practice1.repository.UserRepository;
+import com.spring.practice1.modules.auth.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -119,6 +119,8 @@ public class ApplicationService {
         Application application = applicationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Application not found"));
 
+
+
         if (!application.getEmployee().getApprover().getId().equals(dto.getApprover_id())) {
             throw new RuntimeException("You cannot approve or reject this leave application");
         }

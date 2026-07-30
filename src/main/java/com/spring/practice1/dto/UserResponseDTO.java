@@ -1,10 +1,6 @@
 package com.spring.practice1.dto;
 
-import com.spring.practice1.enums.UserStatus;
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.PositiveOrZero;
-import jakarta.validation.constraints.Size;
+import com.spring.practice1.modules.auth.enums.UserStatus;
 import lombok.Getter;
 import lombok.Setter;
 

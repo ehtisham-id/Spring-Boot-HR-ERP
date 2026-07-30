@@ -1,8 +1,5 @@
 package com.spring.practice1.dto;
 
-import com.spring.practice1.entity.Employee;
-import com.spring.practice1.entity.Leave;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;

@@ -4,7 +4,6 @@ import com.spring.practice1.dto.EmployeeRequestDTO;
 import com.spring.practice1.dto.EmployeeResponseDTO;
 import com.spring.practice1.entity.Employee;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 import java.util.List;

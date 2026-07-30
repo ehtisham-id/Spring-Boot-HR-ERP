@@ -1,11 +1,9 @@
 package com.spring.practice1.dto;
 
-import com.spring.practice1.entity.Leave;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter

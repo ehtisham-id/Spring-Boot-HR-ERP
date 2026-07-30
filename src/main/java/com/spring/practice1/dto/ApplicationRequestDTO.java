@@ -1,9 +1,5 @@
 package com.spring.practice1.dto;
 
-import com.spring.practice1.entity.Employee;
-import com.spring.practice1.entity.Leave;
-import com.spring.practice1.enums.ApplicationStatus;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import lombok.Getter;
 import lombok.Setter;
